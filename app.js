@@ -5,6 +5,7 @@ const app = express()
 const {
     prgMqtt
 } = require('./mqtt/cusMqtt')
+const bodyParser = require('body-parser')
 
 // const mqtt = require('mqtt')
 // const client = mqtt.connect('mqtt://colinashdlv.dyndns.org:8090')
@@ -13,6 +14,10 @@ const {
 app.set('port', process.env.PORT || 3000)
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
+// app.use(express.urlencoded({
+//     extended: true
+// }));
+app.use(express.json());
 
 // Settings MQTT
 prgMqtt()

@@ -9,15 +9,48 @@
 </head>
 
 <body>
-    MQTT Connection
-
-    <form action="/turnoff" method="post">
-        <button>Turn Off Led1</button>
-    </form>
-    <form action="/turnon" method="post">
-        <button>Turn On Led1</button>
-    </form>
-
+    <h3>MQTT Connection</h3>
+    <button onclick="addNewForm()">+ Add new form</button>
 </body>
+
+<script>
+    const publish = (topic, message) => {
+        console.log(topic, message)
+        fetch('/publish', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    topic,
+                    message
+                })
+            }).then(response => console.log(response))
+            .catch(error => console.log(error))
+    }
+
+    const addNewForm = () => {
+        const form = document.createElement("FORM")
+
+        const topicTxt = document.createElement("INPUT")
+        topicTxt.name = "topic"
+        topicTxt.placeholder = "Add a topic"
+
+        const messageTxt = document.createElement("INPUT")
+        messageTxt.name = "message"
+        messageTxt.placeholder = "Add a message"
+
+        const submitBtn = document.createElement("BUTTON")
+        submitBtn.innerText = "Publish"
+        submitBtn.type = "button"
+        submitBtn.addEventListener('click', () => publish(topicTxt.value, messageTxt.value))
+
+        form.appendChild(topicTxt)
+        form.appendChild(messageTxt)
+        form.appendChild(submitBtn)
+
+        document.body.appendChild(form)
+    }
+</script>
 
 </html>

@@ -8,14 +8,14 @@ router.get('/', (req, res) => {
     res.render('home')
 })
 
-router.post('/turnoff', (req, res) => {
-    prgMqtt.client.publish('F767/led1', 'OFF')
-    res.redirect('/')
-})
-
-router.post('/turnon', (req, res) => {
-    prgMqtt.client.publish('F767/led1', 'ON')
-    res.redirect('/')
+// Create publish
+router.post('/publish', (req, res, next) => {
+    const {
+        topic,
+        message
+    } = req.body
+    console.log(`${topic} - ${message}`)
+    prgMqtt.client.publish(topic, message)
 })
 
 module.exports = router
